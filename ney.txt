@@ -7291,9 +7291,12 @@ FreezeTab:AddToggle({
         end
     end
 })
-⁩
-]
-local Main = Window:MakeTab({"اغاني المجانية", "rbxassetid://97937665580776"})
+-- إنشاء تاب جديد باسم "اغاني مجانيه 2"
+local SongsTab2 = Window:MakeTab({
+    Title = "اغاني مجانيه 2",
+    Icon = "rbxassetid://97937665580776" -- أيقونة نفس المثال السابق
+})
+
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Players = game:GetService("Players")
 local Workspace = game:GetService("Workspace")
@@ -7303,7 +7306,6 @@ local audioLoop = false
 getgenv().Audio_All_loop_fast = false
 
 local audios = {
-    
     {Name = "قران 1", ID = 4711690175},
     {Name = "قرأن 2", ID = 1836685929},
     {Name = "سب 1", ID = 6536444735},
@@ -7363,13 +7365,17 @@ for _, audio in ipairs(audios) do
     table.insert(audioNames, audio.Name)
 end
 
-Main:AddTextBox({
+-- TextBox لإدخال ID يدوي
+SongsTab2:AddTextBox({
     Name = "ايدي صوت",
     PlaceholderText = "",
-    Callback = function(value) selectedAudioID = tonumber(value) end
+    Callback = function(value)
+        selectedAudioID = tonumber(value)
+    end
 })
 
-Main:AddDropdown({
+-- Dropdown لاختيار الأغاني
+SongsTab2:AddDropdown({
     Name = "Select Audio",
     Options = audioNames,
     Default = audioNames[1],
@@ -7383,6 +7389,7 @@ Main:AddDropdown({
     end
 })
 
+-- دالة لتشغيل الصوت مرة واحدة
 local function playAudio()
     if selectedAudioID then
         local args = {Workspace, selectedAudioID, 1}
@@ -7394,6 +7401,7 @@ local function playAudio()
     end
 end
 
+-- دالة لتشغيل الصوت بشكل متكرر
 local function playLoopedAudio()
     while audioLoop do
         playAudio()
@@ -7401,12 +7409,22 @@ local function playLoopedAudio()
     end
 end
 
-Main:AddButton({
+-- زر لتشغيل الصوت
+SongsTab2:AddButton({
     Name = "تشغيل الصوت",
-    Callback = function() playAudio() end
+    Callback = function()
+        playAudio()
+    end
 })
- ShadowDev, [⁨9⁩ سبتمبر ⁨2025⁩ في ⁨3:07 PM⁩
-]
-Main:AddToggle({
+
+-- Toggle لتكرار الصوت
+SongsTab2:AddToggle({
     Name = "تكرار الصوت",
     Default = false,
+    Callback = function(state)
+        audioLoop = state
+        if state then
+            spawn(playLoopedAudio)
+        end
+    end
+})
