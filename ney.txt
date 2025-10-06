@@ -7291,7 +7291,8 @@ FreezeTab:AddToggle({
         end
     end
 })
-
+⁩
+]
 local Main = Window:MakeTab({"اغاني المجانية", "rbxassetid://97937665580776"})
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Players = game:GetService("Players")
